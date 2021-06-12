@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import java.util.PrimitiveIterator;
 
 public class Rules {
-    static Hashtable<String, Integer> ranking;
+    static Hashtable<String, Integer> ranking = init_ranking();
 
     private static Hashtable<String, Integer> init_ranking(){
         if(ranking == null){
@@ -19,9 +19,6 @@ public class Rules {
     }
 
     public static int get_rank(String value){
-        if(ranking == null)
-            init_ranking();
-            
         return ranking.get(value);
     }
 }
