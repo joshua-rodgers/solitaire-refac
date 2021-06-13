@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
+
+import org.graalvm.compiler.lir.alloc.OutOfRegistersException;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.PrimitiveIterator;
@@ -34,6 +37,18 @@ class Game{
         deck.stream().forEach(c->new_deck[nums.remove(r.nextInt(nums.size()))] = c);
         deck = new Stack<Card>();
         Arrays.stream(new_deck).forEach(c -> deck.push(c));
+    }
+
+    private void deal(){
+        /* tableau is a list of stacks
+        to deal iterate through outer 
+        deal (push) outer.size() cards in each
+        peek top and turn face up 
+        once dealt store all top cards in list
+        moves search top cards list 
+        if found and move valid
+        pop from from current, push to new face up 
+        update top cards */
     }
 
     public static void main(String[] args) {
