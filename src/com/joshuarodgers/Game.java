@@ -5,8 +5,6 @@ import java.util.Stack;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
-import org.graalvm.compiler.lir.alloc.OutOfRegistersException;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.PrimitiveIterator;
@@ -15,11 +13,13 @@ import java.util.Random;
 class Game{
     Stack<Card> deck;
     Stack<Card> waste;
+    List<Stack<Card>> tableau;
 
     Game(){
         deck = new Stack<>();
         init_deck();
         shuffle_deck();
+        deal();
     }
 
     private void init_deck(){
@@ -42,6 +42,7 @@ class Game{
     private void deal(){
         /* tableau is a list of stacks
         to deal iterate through outer 
+        add(new Stack<Card>()) 
         deal (push) outer.size() cards in each
         peek top and turn face up 
         once dealt store all top cards in list
@@ -49,6 +50,13 @@ class Game{
         if found and move valid
         pop from from current, push to new face up 
         update top cards */
+
+        tableau = new ArrayList<>();
+        IntStream.range(0, 6).forEach(i->{
+            tableau.add(new Stack<Card>());
+            IntStream.range(0, tableau.size()).forEach((j->tableau.get(i).push(deck.pop())));
+        });
+        tableau.forEach(s->s.forEach(c->System.out.println(s.size())));
     }
 
     public static void main(String[] args) {
