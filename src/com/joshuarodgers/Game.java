@@ -32,7 +32,8 @@ class Game{
         i.forEachRemaining(ic);
         Card[] new_deck = new Card[52];
         deck.stream().forEach(c->new_deck[nums.remove(r.nextInt(nums.size()))] = c);
-        Arrays.stream(new_deck).forEach(c -> System.out.print(c.suit + " " + c.value + ", "));
+        deck = new Stack<Card>();
+        Arrays.stream(new_deck).forEach(c -> deck.push(c));
     }
 
     public static void main(String[] args) {
