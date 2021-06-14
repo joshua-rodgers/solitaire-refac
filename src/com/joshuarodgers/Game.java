@@ -52,11 +52,15 @@ class Game{
         update top cards */
 
         tableau = new ArrayList<>();
-        IntStream.range(0, 6).forEach(i->{
+        // Create a stack to represent each column in tableau
+        // then "deal" column number cards into stack
+        // using current size of tableau to represent column number
+        IntStream.range(0, 7).forEach(i->{
             tableau.add(new Stack<Card>());
             IntStream.range(0, tableau.size()).forEach((j->tableau.get(i).push(deck.pop())));
         });
-        tableau.forEach(s->s.forEach(c->System.out.println(s.size())));
+        IntStream.range(0, 7).forEach(i->tableau.get(i).peek().is_face_up = true);
+        tableau.forEach(s->s.forEach(c->System.out.println("Column:" + tableau.indexOf(s) + " " + c.suit + c.value)));
     }
 
     public static void main(String[] args) {
