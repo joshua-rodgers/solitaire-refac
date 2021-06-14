@@ -4,25 +4,28 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.PrimitiveIterator;
 import java.util.Random;
+import java.util.Scanner;
 
 class Game{
     Stack<Card> deck;
     Stack<Card> waste;
     List<Stack<Card>> tableau;
+    boolean is_running;
 
     Game(){
-        deck = new Stack<>();
         init_deck();
         shuffle_deck();
         deal();
+        show();
+        is_running = true;
     }
 
     private void init_deck(){
+        this.deck = new Stack<>();
         List<String> suits = Arrays.asList("\3", "\4", "\5", "\6");
         suits.stream().forEach(s->Rules.ranking.keySet().stream().forEach(v->deck.push(new Card(s, v))));
     }
@@ -51,19 +54,48 @@ class Game{
         pop from from current, push to new face up 
         update top cards */
 
-        tableau = new ArrayList<>();
+        this.tableau = new ArrayList<>();
         // Create a stack to represent each column in tableau
         // then "deal" column number cards into stack
         // using current size of tableau to represent column number
+        // top card of each stack turned face up
         IntStream.range(0, 7).forEach(i->{
             tableau.add(new Stack<Card>());
             IntStream.range(0, tableau.size()).forEach((j->tableau.get(i).push(deck.pop())));
         });
         IntStream.range(0, 7).forEach(i->tableau.get(i).peek().is_face_up = true);
-        tableau.forEach(s->s.forEach(c->System.out.println("Column:" + tableau.indexOf(s) + " " + c.suit + c.value)));
+    }
+
+    public void show(){
+        /* 
+        Print each column, representing face down cards as an '*'
+        print a newline when at the last card in column
+        */
+        tableau.forEach(s->s.forEach(c->{
+            if(c.is_face_up)
+                System.out.print(c.value + c.suit + " ");
+            else
+                System.out.print("* ");
+
+            if(s.indexOf(c) == s.size() - 1)
+                System.out.print("\n");
+        })); 
+    }
+
+    public void proc_input(String input){
+        String[] tokens = input.split(" ");
+        // test
+        System.out.println(tokens[0]);
+        show();
+
     }
 
     public static void main(String[] args) {
-        new Game();
+        Game g = new Game();
+        Scanner sc = new Scanner(System.in);
+        while(g.is_running){
+            System.out.print("MOVE: ");
+            g.proc_input(sc.nextLine());
+        }
     }
 }
