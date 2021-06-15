@@ -28,11 +28,13 @@ public class Rules {
     }
     
     public static boolean is_valid(String play_from, String play_to){
+        // value check
         Predicate<String> v_len3 = s->values.contains(s.substring(0,2).toUpperCase());
         Predicate<String> v_len2 = s->values.contains(s.substring(0,1).toUpperCase());
+        // suit check
         Predicate<String> s_len3 = s->suits.contains(s.substring(2).toUpperCase());
         Predicate<String> s_len2 = s->suits.contains(s.substring(1).toUpperCase());
-        
+
         boolean result1;
         boolean result2;
 
@@ -47,6 +49,7 @@ public class Rules {
         }else{
             result2 = v_len2.and(s_len2).test(play_to);
         }
+
         return result1 && result2;
     }
 }
