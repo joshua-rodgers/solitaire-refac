@@ -27,7 +27,7 @@ class Game{
     private void init_deck(){
         this.deck = new Stack<>();
         List<String> suits = Arrays.asList("\3", "\4", "\5", "\6");
-        suits.stream().forEach(s->Rules.ranking.keySet().stream().forEach(v->deck.push(new Card(s, v))));
+        suits.forEach(s->Rules.ranking.keySet().forEach(v->deck.push(new Card(s, v))));
     }
 
     private void shuffle_deck(){
@@ -84,8 +84,16 @@ class Game{
 
     public void proc_input(String input){
         String[] tokens = input.split(" ");
-        // test
-        System.out.println(tokens[0]);
+
+        if(tokens.length != 2){
+            System.out.println("INVALID PLAY.");
+        }else if(tokens[0].length() > 3 || tokens[1].length() > 3){
+            System.out.println("INVALID PLAY.");
+        }else{
+            //test
+            System.out.println(Rules.is_valid(tokens[0], tokens[1]));
+        }
+
         show();
 
     }
@@ -94,7 +102,7 @@ class Game{
         Game g = new Game();
         Scanner sc = new Scanner(System.in);
         while(g.is_running){
-            System.out.print("MOVE: ");
+            System.out.print("PLAY: ");
             g.proc_input(sc.nextLine());
         }
     }
