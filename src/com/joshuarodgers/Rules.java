@@ -26,34 +26,27 @@ public class Rules {
     public static int get_rank(String value){
         return ranking.get(value);
     }
-
+    
     public static boolean is_valid(String play_from, String play_to){
-        Predicate<String> first = s->values.contains(s.substring(0, 1).toUpperCase());
-        Predicate<String> second = s->suits.contains(s.substring(1, 2).toUpperCase());
-        boolean result_from;
-        boolean result_to;
+        Predicate<String> v_len3 = s->values.contains(s.substring(0,2).toUpperCase());
+        Predicate<String> v_len2 = s->values.contains(s.substring(0,1).toUpperCase());
+        Predicate<String> s_len3 = s->suits.contains(s.substring(2).toUpperCase());
+        Predicate<String> s_len2 = s->suits.contains(s.substring(1).toUpperCase());
+        
+        boolean result1;
+        boolean result2;
 
         if(play_from.length() > 2){
-            first = s->values.contains(s.substring(0, 2).toUpperCase());
-            second = s->suits.contains(s.substring(2).toUpperCase());
+            result1 = v_len3.and(s_len3).test(play_from);
+        }else{
+            result1 = v_len2.and(s_len2).test(play_from);
         }
-
-        result_from = first.and(second).test(play_from);
-
-        first = s->values.contains(s.substring(0, 1).toUpperCase());
-        second = s->suits.contains(s.substring(1, 2).toUpperCase());
 
         if(play_to.length() > 2){
-            first = s->values.contains(s.substring(0, 2).toUpperCase());
-            second = s->suits.contains(s.substring(2).toUpperCase());
+            result2 = v_len3.and(s_len3).test(play_to);
+        }else{
+            result2 = v_len2.and(s_len2).test(play_to);
         }
-
-        result_to = first.and(second).test(play_to);
-
-        return result_from && result_to;
-    }
-    
-    public static boolean validate(String[] tokens){
-        boolean result1 = Arrays.stream(tokens).filter(t->t.length() > 2).anyMatch(s->values.contains(s.substring(0,2)));
+        return result1 && result2;
     }
 }
